@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_bottom_navigation.dart';
+import 'my_personal_screen.dart';
 import 'favorite_screen.dart';
 import 'post_screen.dart';
-import 'profile_screen.dart';
 import 'settings_screen.dart';
-import 'my_personal_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
