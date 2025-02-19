@@ -16,7 +16,7 @@ class AppColors {
   static const Color springWarmFont = Color(0xFFFDA844);
   static const Color springWarmBg = Color(0xFFFFD9AC);
 
-  // ❄️ Summer (여름) 톤
+  // 🧊 Summer (여름) 톤
   static const Color summerLightFont = Color(0xFF84CAEC);
   static const Color summerLightBg = Color(0xFFC2EBFF);
   static const Color summerMuteFont = Color(0xFF8977B5);
