@@ -99,3 +99,6 @@ ios/Pods/
 *.iml
 *.iws
 .DS_Store
+
+# Project specific
+README.md
