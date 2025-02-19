@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/product_detail_screen.dart';
-import 'screens/upload_screen.dart';
 import 'screens/settings/profile_change_screen.dart';
 
 void main() {

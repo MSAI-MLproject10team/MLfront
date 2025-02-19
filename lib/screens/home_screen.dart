@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_bottom_navigation.dart';
-import 'my_personal_screen.dart';
 import 'favorite_screen.dart';
 import 'post_screen.dart';
+import 'my_personal_screen.dart';
 import 'settings_screen.dart';
+import 'product_detail_screen.dart';
+import '../colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,9 +18,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  String selectedSeason = '봄';
-  String selectedCategory = '브라이트';
-  String selectedClothingType = '상의';
+  String? selectedSeason;  // null 가능하도록 변경
+  String? selectedCategory;  // null 가능하도록 변경
+  String selectedClothingType = '아우터';
+  List<String> selectedTags = [];
   Map<String, bool> favoriteStates = {};
 
   final Map<String, List<String>> seasonCategories = {
@@ -28,11 +31,138 @@ class _HomeScreenState extends State<HomeScreen> {
     '겨울': ['브라이트', '딥', '쿨'],
   };
 
+  // 계절별 색상 매핑
+  Color getSeasonalColor(String? season, String? category) {
+    if (season == null || category == null) return Colors.black;  // 기본값
+    
+    if (season == '봄') {
+      if (category == '라이트') return AppColors.springLightFont;
+      if (category == '브라이트') return AppColors.springBrightFont;
+      if (category == '웜') return AppColors.springWarmFont;
+    } else if (season == '여름') {
+      if (category == '라이트') return AppColors.summerLightFont;
+      if (category == '뮤트') return AppColors.summerMuteFont;
+      if (category == '쿨') return AppColors.summerCoolFont;
+    } else if (season == '가을') {
+      if (category == '딥') return AppColors.autumnDeepFont;
+      if (category == '뮤트') return AppColors.autumnMuteFont;
+      if (category == '웜') return AppColors.autumnWarmFont;
+    } else { // 겨울
+      if (category == '딥') return AppColors.winterDeepFont;
+      if (category == '브라이트') return AppColors.winterBrightFont;
+      if (category == '쿨') return AppColors.winterCoolFont;
+    }
+    return Colors.black; // 기본값
+  }
+
+  // 계절별 배경색 매핑
+  Color getSeasonalBgColor(String? season, String? category) {
+    if (season == null || category == null) return Colors.grey.shade200;  // 기본값
+    
+    if (season == '봄') {
+      if (category == '라이트') return AppColors.springLightBg;
+      if (category == '브라이트') return AppColors.springBrightBg;
+      if (category == '웜') return AppColors.springWarmBg;
+    } else if (season == '여름') {
+      if (category == '라이트') return AppColors.summerLightBg;
+      if (category == '뮤트') return AppColors.summerMuteBg;
+      if (category == '쿨') return AppColors.summerCoolBg;
+    } else if (season == '가을') {
+      if (category == '딥') return AppColors.autumnDeepBg;
+      if (category == '뮤트') return AppColors.autumnMuteBg;
+      if (category == '웜') return AppColors.autumnWarmBg;
+    } else { // 겨울
+      if (category == '딥') return AppColors.winterDeepBg;
+      if (category == '브라이트') return AppColors.winterBrightBg;
+      if (category == '쿨') return AppColors.winterCoolBg;
+    }
+    return Colors.grey.shade200; // 기본값
+  }
+
+  // 계절 선택 시
+  void selectSeason(String season) {
+    setState(() {
+      if (selectedSeason == season) {
+        selectedSeason = null;
+        selectedCategory = null;
+      } else {
+        selectedSeason = season;
+        selectedCategory = null;
+      }
+    });
+  }
+
+  // 카테고리 선택 시
+  void selectCategory(String category) {
+    setState(() {
+      if (selectedCategory == category) {
+        selectedCategory = null;
+      } else {
+        selectedCategory = category;
+        if (selectedSeason != null && selectedCategory != null) {
+          String newTag = '#${selectedSeason}_${selectedCategory}';
+          if (!selectedTags.contains(newTag) && selectedTags.length < 3) {
+            selectedTags.add(newTag);
+          }
+        }
+      }
+    });
+  }
+
+  // 해시태그 위젯
+  Widget _buildHashTags() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      child: Wrap(
+        spacing: 6.0,
+        runSpacing: 6.0,
+        children: [
+          ...selectedTags.map((tag) {
+            final tagParts = tag.substring(1).split('_');
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: getSeasonalBgColor(tagParts[0], tagParts[1]),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    tag,
+                    style: TextStyle(
+                      color: getSeasonalColor(tagParts[0], tagParts[1]),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedTags.remove(tag);
+                      });
+                    },
+                    child: Icon(
+                      Icons.close,  // remove_circle_outline에서 close로 변경
+                      size: 18,
+                      color: getSeasonalColor(tagParts[0], tagParts[1]),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(),
+      appBar: _selectedIndex != 2 ? const CustomAppBar() : null,  // PostScreen일 때는 AppBar 제거
       body: IndexedStack(
         index: _selectedIndex,
         children: [
@@ -40,15 +170,37 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             color: Colors.white,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildFixedCategoryRow(),
                 _buildSeasonRow(),
                 _buildDynamicCategoryRow(),
+                _buildHashTags(),
                 Expanded(
                   child: ListView(
                     children: [
-                      _buildProductCard(),
-                      _buildProductCard(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductDetailScreen(),
+                            ),
+                          );
+                        },
+                        child: _buildProductCard(),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProductDetailScreen(),
+                            ),
+                          );
+                        },
+                        child: _buildProductCard(),
+                      ),
                     ],
                   ),
                 ),
@@ -56,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const FavoriteScreen(),
-          const Center(child: Text('게시물 등록')),
+          const PostScreen(),
           const MyPersonalScreen(),
           const SettingsScreen(),
         ],
@@ -163,12 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final isSelected = season == selectedSeason;
           return Expanded(
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedSeason = season;
-                  selectedCategory = seasonCategories[season]![0];
-                });
-              },
+              onTap: () => selectSeason(season),
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -196,7 +343,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 컬러 카테고리 행
   Widget _buildDynamicCategoryRow() {
-    final categories = seasonCategories[selectedSeason]!;
+    final categories = selectedSeason != null 
+        ? seasonCategories[selectedSeason]! 
+        : <String>[];
     return Container(
       height: 45,
       decoration: BoxDecoration(
@@ -206,19 +355,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start, 
         children: categories.map((category) {
           final isSelected = category == selectedCategory;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+          return Container(
+            width: 100,  // 고정된 너비 설정
+            margin: const EdgeInsets.only(right: 16),  // 카테고리 간 간격
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedCategory = category;
-                });
-              },
-              child: Center(
+              onTap: () => selectCategory(category),
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: isSelected
+                      ? const Border(
+                          bottom: BorderSide(color: Colors.black, width: 2),
+                        )
+                      : null,
+                ),
                 child: Text(
-                  category.replaceAll(RegExp(r'^(봄|여름|가을|겨울)\s*'), ''),
+                  category,
                   style: TextStyle(
                     color: isSelected ? Colors.black : Colors.grey,
                     fontSize: 16,
@@ -316,9 +471,10 @@ class HomeMainScreen extends StatefulWidget {
 }
 
 class _HomeMainScreenState extends State<HomeMainScreen> {
-  String selectedSeason = '봄';
-  String selectedCategory = '브라이트';
+  String? selectedSeason;  // null 가능하도록 변경
+  String? selectedCategory;  // null 가능하도록 변경
   String selectedClothingType = '상의';
+  List<String> selectedTags = [];
   Map<String, bool> favoriteStates = {};
 
   final Map<String, List<String>> seasonCategories = {
@@ -327,6 +483,84 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
     '가을': ['뮤트', '딥', '웜'],
     '겨울': ['브라이트', '딥', '쿨'],
   };
+
+  // 계절 선택 시
+  void selectSeason(String season) {
+    setState(() {
+      if (selectedSeason == season) {
+        selectedSeason = null;
+        selectedCategory = null;
+      } else {
+        selectedSeason = season;
+        selectedCategory = null;
+      }
+    });
+  }
+
+  // 카테고리 선택 시
+  void selectCategory(String category) {
+    setState(() {
+      if (selectedCategory == category) {
+        selectedCategory = null;
+      } else {
+        selectedCategory = category;
+        if (selectedSeason != null && selectedCategory != null) {
+          String newTag = '#${selectedSeason}_${selectedCategory}';
+          if (!selectedTags.contains(newTag) && selectedTags.length < 3) {
+            selectedTags.add(newTag);
+          }
+        }
+      }
+    });
+  }
+
+  // 계절별 색상 매핑
+  Color getSeasonalColor(String? season, String? category) {
+    if (season == null || category == null) return Colors.black;
+    
+    if (season == '봄') {
+      if (category == '라이트') return AppColors.springLightFont;
+      if (category == '브라이트') return AppColors.springBrightFont;
+      if (category == '웜') return AppColors.springWarmFont;
+    } else if (season == '여름') {
+      if (category == '라이트') return AppColors.summerLightFont;
+      if (category == '뮤트') return AppColors.summerMuteFont;
+      if (category == '쿨') return AppColors.summerCoolFont;
+    } else if (season == '가을') {
+      if (category == '딥') return AppColors.autumnDeepFont;
+      if (category == '뮤트') return AppColors.autumnMuteFont;
+      if (category == '웜') return AppColors.autumnWarmFont;
+    } else { // 겨울
+      if (category == '딥') return AppColors.winterDeepFont;
+      if (category == '브라이트') return AppColors.winterBrightFont;
+      if (category == '쿨') return AppColors.winterCoolFont;
+    }
+    return Colors.black;
+  }
+
+  // 계절별 배경색 매핑
+  Color getSeasonalBgColor(String? season, String? category) {
+    if (season == null || category == null) return Colors.grey.shade200;
+    
+    if (season == '봄') {
+      if (category == '라이트') return AppColors.springLightBg;
+      if (category == '브라이트') return AppColors.springBrightBg;
+      if (category == '웜') return AppColors.springWarmBg;
+    } else if (season == '여름') {
+      if (category == '라이트') return AppColors.summerLightBg;
+      if (category == '뮤트') return AppColors.summerMuteBg;
+      if (category == '쿨') return AppColors.summerCoolBg;
+    } else if (season == '가을') {
+      if (category == '딥') return AppColors.autumnDeepBg;
+      if (category == '뮤트') return AppColors.autumnMuteBg;
+      if (category == '웜') return AppColors.autumnWarmBg;
+    } else { // 겨울
+      if (category == '딥') return AppColors.winterDeepBg;
+      if (category == '브라이트') return AppColors.winterBrightBg;
+      if (category == '쿨') return AppColors.winterCoolBg;
+    }
+    return Colors.grey.shade200;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -438,12 +672,7 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
           final isSelected = season == selectedSeason;
           return Expanded(
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedSeason = season;
-                  selectedCategory = seasonCategories[season]![0];
-                });
-              },
+              onTap: () => selectSeason(season),
               child: Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -471,7 +700,9 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
 
   // 컬러 카테고리 행
   Widget _buildDynamicCategoryRow() {
-    final categories = seasonCategories[selectedSeason]!;
+    final categories = selectedSeason != null 
+        ? seasonCategories[selectedSeason]! 
+        : <String>[];
     return Container(
       height: 45,
       decoration: BoxDecoration(
@@ -481,19 +712,25 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start, 
         children: categories.map((category) {
           final isSelected = category == selectedCategory;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+          return Container(
+            width: 100,  // 고정된 너비 설정
+            margin: const EdgeInsets.only(right: 16),  // 카테고리 간 간격
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedCategory = category;
-                });
-              },
-              child: Center(
+              onTap: () => selectCategory(category),
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: isSelected
+                      ? const Border(
+                          bottom: BorderSide(color: Colors.black, width: 2),
+                        )
+                      : null,
+                ),
                 child: Text(
-                  category.replaceAll(RegExp(r'^(봄|여름|가을|겨울)\s*'), ''),
+                  category,
                   style: TextStyle(
                     color: isSelected ? Colors.black : Colors.grey,
                     fontSize: 16,
