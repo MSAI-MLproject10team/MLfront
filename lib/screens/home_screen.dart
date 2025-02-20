@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          const FavoriteScreen(),
+          FavoriteScreen(),
           const PostScreen(),
           const MyPersonalScreen(),
           const SettingsScreen(),
