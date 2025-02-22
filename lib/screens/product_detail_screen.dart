@@ -20,21 +20,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   // 이미지 경로 생성 함수
   String getImagePath() {
     Map<String, String> imageMapping = {
-      "1": "dress1",
-      "2": "dress2",
-      "3": "dress3",
-      "4": "dress4",
-      "5": "outter1",
-      "6": "outter2",
-      "7": "pants1",
-      "8": "pants2",
-      "9": "top1",
-      "10": "top2",
-      "11": "top3",
+      "1": "dress1.jpeg",
+      "2": "dress2.jpeg",
+      "3": "dress3.jpeg",
+      "4": "dress4.jpeg",
+      "5": "outter1.jpeg",
+      "6": "outter2.jpeg",
+      "7": "pants1.jpeg",
+      "8": "pants2.jpeg",
+      "9": "top1.jpeg",
+      "10": "top2.jpeg",
+      "11": "top3.jpeg",
+      "12": "spring_bright_1.jpeg",
+      "13": "autumn_deep_1.jpeg",
+      "14": "winter_bright_1.jpeg",
     };
     
     String? imageName = imageMapping[widget.post['itemId']];
-    return 'assets/images/closet/${imageName ?? widget.post['itemId']}.jpeg';
+    return 'assets/images/closet/${imageName ?? "${widget.post['itemId']}.jpeg"}';
   }
 
   @override

@@ -22,10 +22,10 @@ class _SearchScreenState extends State<SearchScreen> {
       searchResults = [
         '#봄_라이트',
         '#봄_브라이트',
-        '#봄_웜',
+        '#봄_트루',
         '#여름_라이트',
         '#여름_뮤트',
-        '#여름_쿨',
+        '#여름_트루',
       ].where((tag) => 
         tag.toLowerCase().contains(query.toLowerCase())
       ).toList();
@@ -124,19 +124,19 @@ class _SearchScreenState extends State<SearchScreen> {
     if (season == '봄') {
       if (category == '라이트') return AppColors.springLightFont;
       if (category == '브라이트') return AppColors.springBrightFont;
-      if (category == '웜') return AppColors.springWarmFont;
+      if (category == '트루') return AppColors.springTrueFont;
     } else if (season == '여름') {
       if (category == '라이트') return AppColors.summerLightFont;
       if (category == '뮤트') return AppColors.summerMuteFont;
-      if (category == '쿨') return AppColors.summerCoolFont;
+      if (category == '트루') return AppColors.summerTrueFont;
     } else if (season == '가을') {
       if (category == '딥') return AppColors.autumnDeepFont;
       if (category == '뮤트') return AppColors.autumnMuteFont;
-      if (category == '웜') return AppColors.autumnWarmFont;
+      if (category == '트루') return AppColors.autumnTrueFont;
     } else { // 겨울
       if (category == '딥') return AppColors.winterDeepFont;
       if (category == '브라이트') return AppColors.winterBrightFont;
-      if (category == '쿨') return AppColors.winterCoolFont;
+      if (category == '트루') return AppColors.winterTrueFont;
     }
     return Colors.black;
   }

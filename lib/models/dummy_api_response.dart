@@ -9,7 +9,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 55000,
         "imageUrl": "assets/images/closet/dress1.jpeg",
         "category": "원피스",
-        "personalColor": "봄웜"
+        "personalColor": {
+          "season": "봄",
+          "tone": "트루"
+        }
       },
       {
         "id": "2",
@@ -17,7 +20,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 49000,
         "imageUrl": "assets/images/closet/dress2.jpeg",
         "category": "원피스",
-        "personalColor": "여름쿨"
+        "personalColor": {
+          "season": "여름",
+          "tone": "트루"
+        }
       },
       {
         "id": "3",
@@ -25,7 +31,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 65000,
         "imageUrl": "assets/images/closet/dress3.jpeg",
         "category": "원피스",
-        "personalColor": "가을웜"
+        "personalColor": {
+          "season": "가을",
+          "tone": "트루"
+        }
       },
       {
         "id": "4",
@@ -33,7 +42,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 58000,
         "imageUrl": "assets/images/closet/dress4.jpeg",
         "category": "원피스",
-        "personalColor": "겨울쿨"
+        "personalColor": {
+          "season": "겨울",
+          "tone": "트루"
+        }
       },
       {
         "id": "5",
@@ -41,7 +53,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 89000,
         "imageUrl": "assets/images/closet/outer1.jpeg",
         "category": "아우터",
-        "personalColor": "가을웜"
+        "personalColor": {
+          "season": "가을",
+          "tone": "트루"
+        }
       },
       {
         "id": "6",
@@ -49,7 +64,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 75000,
         "imageUrl": "assets/images/closet/outer2.jpeg",
         "category": "아우터",
-        "personalColor": "봄웜"
+        "personalColor": {
+          "season": "봄",
+          "tone": "트루"
+        }
       },
       {
         "id": "7",
@@ -57,7 +75,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 39900,
         "imageUrl": "assets/images/closet/pants1.jpeg",
         "category": "바지",
-        "personalColor": "여름쿨"
+        "personalColor": {
+          "season": "여름",
+          "tone": "트루"
+        }
       },
       {
         "id": "8",
@@ -65,7 +86,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 45000,
         "imageUrl": "assets/images/closet/pants2.jpeg",
         "category": "바지",
-        "personalColor": "겨울쿨"
+        "personalColor": {
+          "season": "겨울",
+          "tone": "트루"
+        }
       },
       {
         "id": "9",
@@ -73,7 +97,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 42000,
         "imageUrl": "assets/images/closet/top1.jpeg",
         "category": "상의",
-        "personalColor": "가을웜"
+        "personalColor": {
+          "season": "가을",
+          "tone": "트루"
+        }
       },
       {
         "id": "10",
@@ -81,7 +108,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 38000,
         "imageUrl": "assets/images/closet/top2.jpeg",
         "category": "상의",
-        "personalColor": "봄웜"
+        "personalColor": {
+          "season": "봄",
+          "tone": "트루"
+        }
       },
       {
         "id": "11",
@@ -89,7 +119,10 @@ final Map<String, dynamic> dummyApiResponse = {
         "price": 35000,
         "imageUrl": "assets/images/closet/top3.jpeg",
         "category": "상의",
-        "personalColor": "여름쿨"
+        "personalColor": {
+          "season": "여름",
+          "tone": "트루"
+        }
       }
     ],
     "totalCount": 11,

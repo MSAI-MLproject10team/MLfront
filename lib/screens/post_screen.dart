@@ -19,19 +19,19 @@ class _PostScreenState extends State<PostScreen> {
     if (season == '봄') {
       if (category == '라이트') return AppColors.springLightFont;
       if (category == '브라이트') return AppColors.springBrightFont;
-      if (category == '웜') return AppColors.springWarmFont;
+      if (category == '트루') return AppColors.springTrueFont;
     } else if (season == '여름') {
       if (category == '라이트') return AppColors.summerLightFont;
       if (category == '뮤트') return AppColors.summerMuteFont;
-      if (category == '쿨') return AppColors.summerCoolFont;
+      if (category == '트루') return AppColors.summerTrueFont;
     } else if (season == '가을') {
       if (category == '딥') return AppColors.autumnDeepFont;
       if (category == '뮤트') return AppColors.autumnMuteFont;
-      if (category == '웜') return AppColors.autumnWarmFont;
+      if (category == '트루') return AppColors.autumnTrueFont;
     } else { // 겨울
       if (category == '딥') return AppColors.winterDeepFont;
       if (category == '브라이트') return AppColors.winterBrightFont;
-      if (category == '쿨') return AppColors.winterCoolFont;
+      if (category == '트루') return AppColors.winterTrueFont;
     }
     return Colors.black;
   }
@@ -43,19 +43,19 @@ class _PostScreenState extends State<PostScreen> {
     if (season == '봄') {
       if (category == '라이트') return AppColors.springLightBg;
       if (category == '브라이트') return AppColors.springBrightBg;
-      if (category == '웜') return AppColors.springWarmBg;
+      if (category == '트루') return AppColors.springTrueBg;
     } else if (season == '여름') {
       if (category == '라이트') return AppColors.summerLightBg;
       if (category == '뮤트') return AppColors.summerMuteBg;
-      if (category == '쿨') return AppColors.summerCoolBg;
+      if (category == '트루') return AppColors.summerTrueBg;
     } else if (season == '가을') {
       if (category == '딥') return AppColors.autumnDeepBg;
       if (category == '뮤트') return AppColors.autumnMuteBg;
-      if (category == '웜') return AppColors.autumnWarmBg;
+      if (category == '트루') return AppColors.autumnTrueBg;
     } else { // 겨울
       if (category == '딥') return AppColors.winterDeepBg;
       if (category == '브라이트') return AppColors.winterBrightBg;
-      if (category == '쿨') return AppColors.winterCoolBg;
+      if (category == '트루') return AppColors.winterTrueBg;
     }
     return Colors.grey.shade200;
   }
@@ -106,24 +106,24 @@ class _PostScreenState extends State<PostScreen> {
                   ),
                   // 해시태그를 이미지 좌측 하단에 배치
                   Positioned(
-                    left: 16,
-                    bottom: 16,
+                    left: 14,
+                    bottom: 12,
                     child: Wrap(
-                      spacing: 6.0,
-                      runSpacing: 6.0,
+                      spacing: 8.0,
+                      runSpacing: 8.0,
                       children: selectedTags.map((tag) {
                         final tagParts = tag.substring(1).split('_');
                         return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             color: getSeasonalBgColor(tagParts[0], tagParts[1]),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             tag,
                             style: TextStyle(
                               color: getSeasonalColor(tagParts[0], tagParts[1]),
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -137,7 +137,7 @@ class _PostScreenState extends State<PostScreen> {
 
               // 의류 카테고리
               Container(
-                height: 50,
+                height: 42,
                 child: Row(
                   children: ['아우터', '상의', '바지', '치마/원피스'].map((type) {
                     final isSelected = type == selectedClothingType;
