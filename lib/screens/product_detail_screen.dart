@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key});
+  final Map<String, dynamic> post;  // 게시물 데이터 추가
+
+  const ProductDetailScreen({
+    super.key,
+    required this.post,  // 필수 파라미터로 변경
+  });
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -12,13 +17,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int _currentImageIndex = 0;
   bool _isFavorite = false;
   
-  // 더미 이미지 데이터
-  final List<String> images = [
-    'assets/images/dress.png',
-    'assets/images/pants.png',
-    'assets/images/top.png',
-    'assets/images/outer.pnd',
-  ];
+  // 이미지 경로 생성 함수
+  String getImagePath() {
+    Map<String, String> imageMapping = {
+      "1": "dress1.jpeg",
+      "2": "dress2.jpeg",
+      "3": "dress3.jpeg",
+      "4": "dress4.jpeg",
+      "5": "outter1.jpeg",
+      "6": "outter2.jpeg",
+      "7": "pants1.jpeg",
+      "8": "pants2.jpeg",
+      "9": "top1.jpeg",
+      "10": "top2.jpeg",
+      "11": "top3.jpeg",
+      "12": "spring_bright_1.jpeg",
+      "13": "autumn_deep_1.jpeg",
+      "14": "winter_bright_1.jpeg",
+    };
+    
+    String? imageName = imageMapping[widget.post['itemId']];
+    return 'assets/images/closet/${imageName ?? "${widget.post['itemId']}.jpeg"}';
+  }
 
   @override
   void dispose() {
@@ -37,9 +57,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          '상품 페이지',
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          widget.post['title'],  // 게시물 제목 표시
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: SingleChildScrollView(
@@ -58,36 +78,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         _currentImageIndex = index;
                       });
                     },
-                    itemCount: images.length,
+                    itemCount: 1,  // 현재는 이미지 1개만 표시
                     itemBuilder: (context, index) {
                       return Container(
                         width: double.infinity,
                         color: Colors.grey[200],
-                        child: const Center(child: Text('상품 이미지')),
+                        child: Image.asset(
+                          getImagePath(),
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Center(
+                              child: Icon(
+                                Icons.image_not_supported,
+                                color: Colors.grey[400],
+                                size: 50,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     },
-                  ),
-                  // 이미지 인디케이터
-                  Positioned(
-                    bottom: 16,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: images.asMap().entries.map((entry) {
-                        return Container(
-                          width: 8,
-                          height: 8,
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _currentImageIndex == entry.key
-                                ? Colors.white
-                                : Colors.white.withOpacity(0.5),
-                          ),
-                        );
-                      }).toList(),
-                    ),
                   ),
                 ],
               ),
@@ -101,9 +111,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        '봄 원피스 판매합니다',
-                        style: TextStyle(
+                      Text(
+                        widget.post['title'],
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w500,
                         ),
@@ -132,19 +142,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: const Icon(Icons.person, color: Colors.grey),
                       ),
                       const SizedBox(width: 8),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '판매자1',
-                            style: TextStyle(
+                            widget.post['seller'],  // 판매자 이름
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           Text(
-                            '오픈SNS ID',
-                            style: TextStyle(
+                            '${widget.post['personalColor']['season']}_${widget.post['personalColor']['tone']}',  // 퍼스널컬러 정보
+                            style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
                             ),
@@ -152,19 +162,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ],
                       ),
                       const Spacer(),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '18,000원',
-                            style: TextStyle(
+                            '${widget.post['price']}원',  // 가격
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
-                            '거래 중',
-                            style: TextStyle(
+                            widget.post['status'],  // 판매 상태
+                            style: const TextStyle(
                               fontSize: 14,
                               color: Colors.blue,
                             ),
@@ -176,9 +186,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   const SizedBox(height: 16),
                   
                   // 상품 설명
-                  const Text(
-                    '이번에 퍼스널 컬러 진단하고\n여름 쿨 나와서 내놔요. 착용횟수 거의 없습니다!',
-                    style: TextStyle(
+                  Text(
+                    widget.post['content'],  // 상품 설명
+                    style: const TextStyle(
                       fontSize: 16,
                       height: 1.5,
                     ),
