@@ -364,6 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],  // 선택된 인덱스에 따라 페이지 전환
+
       bottomNavigationBar: CustomBottomNavigation(
         selectedIndex: _selectedIndex,
         onTap: _onItemTapped,
