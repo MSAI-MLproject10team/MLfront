@@ -191,13 +191,13 @@ class _PostScreenState extends State<PostScreen> {
                         '사진 올리기',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 8),  // 버튼 사이 간격 조정
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {},
@@ -210,10 +210,32 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       ),
                       child: const Text(
-                        '색깔 추출 🔍',
+                        '색감 보정',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),  // 버튼 사이 간격 조정
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        elevation: 4,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        '색깔 추출',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
